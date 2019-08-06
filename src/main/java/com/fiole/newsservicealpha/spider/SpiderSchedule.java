@@ -18,7 +18,7 @@ public class SpiderSchedule {
     @Autowired
     ArticlePipeline articlePipeline;
 
-    @Scheduled(cron = "0 30 23 * * ? ")
+    @Scheduled(cron = "0 30 8/12 * * ? ")
     public void socialSpiderTask(){
         Spider socialSpider = Spider.create(new SocialNewsProcessor()).addPipeline(articlePipeline)
                 .addUrl("http://society.people.com.cn/index1.html#fy01")
@@ -30,7 +30,7 @@ public class SpiderSchedule {
         socialSpider.stop();
     }
 
-    @Scheduled(cron = "0 0 23 * * ? ")
+    @Scheduled(cron = "0 0 8/12 * * ? ")
     public void basketballSpiderTask(){
         Spider basketballSpider = Spider.create(new BasketballNewsProcessor()).addPipeline(articlePipeline)
                 .addUrl("http://sports.people.com.cn/GB/22149/index.html")
@@ -41,7 +41,7 @@ public class SpiderSchedule {
         basketballSpider.stop();
     }
 
-    @Scheduled(cron = "0 30 22 * * ? ")
+    @Scheduled(cron = "0 30 9/12 * * ? ")
     public void worldSpiderTask(){
         Spider worldSpider = Spider.create(new WorldNewsProcessor()).addPipeline(articlePipeline)
                 .addUrl("http://world.people.com.cn/index1.html#fy01")
@@ -52,7 +52,7 @@ public class SpiderSchedule {
         worldSpider.stop();
     }
 
-    @Scheduled(cron = "0 0 22 * * ? ")
+    @Scheduled(cron = "0 0 9/12 * * ? ")
     public void soccerSpiderTask(){
         Spider soccerSpider = Spider.create(new SoccerNewsSpider()).addPipeline(articlePipeline)
                 .addUrl("http://sports.people.com.cn/GB/22134/index.html")

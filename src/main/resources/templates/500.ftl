@@ -48,21 +48,10 @@
     <li class="layui-nav-item"><a href="/index/2">国际新闻</a></li>
     <li class="layui-nav-item"><a href="/index/3">篮球</a></li>
     <li class="layui-nav-item"><a href="/index/4">足球</a></li>
-    <div class="widget widget_search" style="width: 300px;position: fixed;top:4px;right:80px">
-        <div class="navbar-form">
-            <div class="input-group">
-                <input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字"
-                       maxlength="15" autocomplete="off" id="input">
-                <span class="input-group-btn">
-                    <button class="btn btn-default btn-search" id="search">搜索</button>
-                </span>
-            </div>
-        </div>
-    </div>
 </ul>
 <div style="background-color: #FFFFFF">
     <div style="text-align: center">
-        <img src="/image/404.jpg"/>
+        <img src="/image/500.png"/>
     </div>
     <div class="padding-big" style="text-align: center">
         <a href="/index" class="btn btn-primary">返回首页</a>

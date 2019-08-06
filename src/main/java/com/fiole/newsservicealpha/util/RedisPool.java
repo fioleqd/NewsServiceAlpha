@@ -1,5 +1,6 @@
 package com.fiole.newsservicealpha.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -39,7 +40,7 @@ public class RedisPool {
         config.setBlockWhenExhausted(true);
 
         //这里超时时间是2s
-        pool = new JedisPool(config, redisIp, redisPort, 1000 * 5);
+        pool = new JedisPool(config, redisIp, redisPort, 1000 * 2);
     }
 
     static {

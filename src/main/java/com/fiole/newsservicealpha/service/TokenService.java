@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Service
 public class TokenService {
     @Autowired
     TokenRepository tokenRepository;
 
     public Token getToken(int userId,String token){
-        return tokenRepository.getFirstByUserIdAndTokenAndState(userId,token,1);
+        return tokenRepository.getToken(userId,token,new Date());
     }
 
     @Transactional

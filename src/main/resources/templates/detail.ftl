@@ -63,7 +63,7 @@
                 <div class="article-meta">
 		<span class="item article-meta-time">
 	  		<time class="time" data-toggle="tooltip" data-placement="bottom" title=""
-                  data-original-title="发表时间：2019年07月27日10:59"><i class="glyphicon glyphicon-time"></i> 2019-07-27 10:59</time>
+                  data-original-title="发表时间：${article.time}"><i class="glyphicon glyphicon-time"></i> ${article.time}</time>
 		</span>
                     <span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom" title=""
                           data-original-title="来源：${article.source}"><i

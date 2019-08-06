@@ -2,11 +2,12 @@ package com.fiole.newsservicealpha.controller;
 
 import com.fiole.newsservicealpha.entity.Comment;
 import com.fiole.newsservicealpha.entity.User;
+import com.fiole.newsservicealpha.exception.RequestException;
+import com.fiole.newsservicealpha.model.ResponseModel;
 import com.fiole.newsservicealpha.model.SubmitCommentRequestModel;
 import com.fiole.newsservicealpha.service.ArticleService;
 import com.fiole.newsservicealpha.service.CommentService;
 import com.fiole.newsservicealpha.util.CookieUtils;
-import com.fiole.newsservicealpha.Enum.ResponseStatusEnum;
 import com.fiole.newsservicealpha.util.Page2ListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,20 +50,15 @@ public class CommentsController {
 
     @RequestMapping(value = "/repsonse/ajax/submit",method = RequestMethod.POST)
     @ResponseBody
-    public Map submit(@RequestBody SubmitCommentRequestModel requestModel, HttpServletRequest request){
+    public ResponseModel submit(@RequestBody SubmitCommentRequestModel requestModel, HttpServletRequest request){
         User user = cookieUtils.getUser(request);
-        Map map = new HashMap();
         if (user == null){
             log.warn("Submit comment but user is null");
-            map.put("errorCode", ResponseStatusEnum.SubmitUserNotLogin.getStatusCode());
-            map.put("errorInfo",ResponseStatusEnum.SubmitUserNotLogin.getStatusInfo());
-            return map;
+            throw new RequestException("获取用户状态失败，请重新登录");
         }
         if (user.getId() != requestModel.getUserId()){
             log.warn("Submit user is not online user, online user id is " + user.getId() + ", request user id is " + requestModel.getUserId());
-            map.put("errorCode",ResponseStatusEnum.SubmitUserNotCurrentLogin.getStatusCode());
-            map.put("errorInfo",ResponseStatusEnum.SubmitUserNotCurrentLogin.getStatusInfo());
-            return map;
+            throw new RequestException("用户身份验证失败，请重试");
         }
         Comment comment = new Comment();
         long now = System.currentTimeMillis();
@@ -80,12 +76,8 @@ public class CommentsController {
         int number = articleService.doComment(requestModel.getItemId(), comment);
         if (number == 0){
             log.error("Add comment error, article id is {}",requestModel.getItemId());
-            map.put("errorCode",ResponseStatusEnum.AddCommentFailed.getStatusCode());
-            map.put("errorInfo",ResponseStatusEnum.AddCommentFailed.getStatusInfo());
-            return map;
+            throw new RequestException("系统异常，请重试");
         }
-        map.put("errorCode",ResponseStatusEnum.Success.getStatusCode());
-        map.put("errorInfo",ResponseStatusEnum.Success.getStatusInfo());
-        return map;
+        return ResponseModel.success();
     }
 }

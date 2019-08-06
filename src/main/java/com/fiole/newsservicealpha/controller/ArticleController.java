@@ -11,7 +11,6 @@ import com.fiole.newsservicealpha.util.CookieUtils;
 import com.fiole.newsservicealpha.Enum.ResponseStatusEnum;
 import com.fiole.newsservicealpha.util.Page2ListUtil;
 import com.fiole.newsservicealpha.util.RedisPoolUtil;
-import com.fiole.newsservicealpha.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,7 +56,7 @@ public class ArticleController {
             Page<Article> hotArticlesPage = articleService.getHotArticles(0, 5, 0);
             hotArticles = Page2ListUtil.page2List(hotArticlesPage);
             redisHotValue = JSON.toJSONString(hotArticles);
-            RedisPoolUtil.setEx(redisHotKey,redisHotValue,TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisHotKey,redisHotValue,60 * 60 * 12);
         } else {
             hotArticles = JSON.parseObject(redisHotValue,List.class);
         }
@@ -69,7 +68,7 @@ public class ArticleController {
             Page<Article> socialsPage = articleService.getArticlesByTypeAndPaging(0, 5,ArticleTypeEnum.SOCIAL.getType(),"id");
             socials = Page2ListUtil.page2List(socialsPage);
             redisSocialValue = JSON.toJSONString(socials);
-            RedisPoolUtil.setEx(redisSocialKey,redisSocialValue,TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisSocialKey,redisSocialValue,60 * 60 * 12);
         } else {
             socials = JSON.parseObject(redisSocialValue,List.class);
         }
@@ -81,7 +80,7 @@ public class ArticleController {
             Page<Article> worldsPage = articleService.getArticlesByTypeAndPaging(0, 5,ArticleTypeEnum.WORLD.getType(),"id");
             worlds = Page2ListUtil.page2List(worldsPage);
             redisWorldValue = JSON.toJSONString(worlds);
-            RedisPoolUtil.setEx(redisWorldKey,redisWorldValue,TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisWorldKey,redisWorldValue,60 * 60 * 12);
         } else {
             worlds = JSON.parseObject(redisWorldValue,List.class);
         }
@@ -93,7 +92,7 @@ public class ArticleController {
             Page<Article> basketballsPage = articleService.getArticlesByTypeAndPaging(0, 5, ArticleTypeEnum.BASKETBALL.getType(),"id");
             basketballs = Page2ListUtil.page2List(basketballsPage);
             redisBasketballValue = JSON.toJSONString(basketballs);
-            RedisPoolUtil.setEx(redisBasketballKey,redisBasketballValue,TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisBasketballKey,redisBasketballValue,60 * 60 * 12);
         } else {
             basketballs = JSON.parseObject(redisBasketballValue,List.class);
         }
@@ -105,7 +104,7 @@ public class ArticleController {
             Page<Article> soccersPage = articleService.getArticlesByTypeAndPaging(0,5,ArticleTypeEnum.FOOTBALL.getType(),"id");
             soccers = Page2ListUtil.page2List(soccersPage);
             redisSoccerValue = JSON.toJSONString(soccers);
-            RedisPoolUtil.setEx(redisSoccerKey,redisSoccerValue,TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisSoccerKey,redisSoccerValue,60 * 60 * 12);
         } else {
             soccers = JSON.parseObject(redisSoccerValue,List.class);
         }
@@ -143,7 +142,7 @@ public class ArticleController {
             Page<Article> articlesPage = articleService.getArticlesByTypeAndPaging(0, 10, type, "id");
             articles = Page2ListUtil.page2List(articlesPage);
             redisFirstPageValue = JSON.toJSONString(articles);
-            RedisPoolUtil.setEx(redisFirstPageKey,redisFirstPageValue,TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisFirstPageKey,redisFirstPageValue,60 * 60 * 12);
         } else {
             articles = JSON.parseObject(redisFirstPageValue,List.class);
         }
@@ -155,7 +154,7 @@ public class ArticleController {
             Page<Article> hotArticlesPage = articleService.getHotArticles(0, 5, type);
             hotArticles = Page2ListUtil.page2List(hotArticlesPage);
             redisHotValue = JSON.toJSONString(hotArticles);
-            RedisPoolUtil.setEx(redisHotKey,redisHotValue, TimeUtil.getTimeFromNow2NextZore());
+            RedisPoolUtil.setEx(redisHotKey,redisHotValue, 60 * 60 * 12);
         }else {
             hotArticles = JSON.parseObject(redisHotValue,List.class);
         }

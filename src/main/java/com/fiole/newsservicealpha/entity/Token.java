@@ -16,6 +16,9 @@ public class Token implements Serializable {
     private int id;
     private int userId;
     private String token;
+    private String userInfo;
     private Date invalidTime;
     private int state;
+    private Date createTime;
+    private Date updateTime;
 }

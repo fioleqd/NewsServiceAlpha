@@ -22,7 +22,7 @@ public class CookieUtils {
     @Autowired
     UserService userService;
     public User getUser(HttpServletRequest request){
-        User user = null;
+        User user;
         Cookie[] cookies = request.getCookies();
         if (cookies == null)
             return null;
@@ -42,40 +42,27 @@ public class CookieUtils {
         }catch (Exception e){
             log.error("Parse integer failed!");
         }
-        String redisTokenKey = "user.token:" + id;
+        String redisTokenKey = "user:" + uuidToken + "#" + id;
         String redisTokenValue = RedisPoolUtil.get(redisTokenKey);
-        Token token = null;
-        long expire = 0;
+        Token token;
         if (redisTokenValue == null) {
-             token = tokenService.getToken(id, uuidToken);
+            token = tokenService.getToken(id, uuidToken);
             if (token == null)
                 return null;
-            Date date = new Date();
-            if (!token.getInvalidTime().after(date))
+            user = JSON.parseObject(token.getUserInfo(),User.class);
+            if (user == null){
+                user = userService.getUserById(id);
+            }
+            if (user == null){
                 return null;
+            }
             Date invalidTime = token.getInvalidTime();
-            expire = (invalidTime.getTime() - date.getTime()) / 1000;
+            long expire = (invalidTime.getTime() - new Date().getTime()) / 1000;
             String tokenJson = JSON.toJSONString(token);
             RedisPoolUtil.setEx(redisTokenKey,tokenJson,(int) expire);
         } else {
             token = JSON.parseObject(redisTokenValue,Token.class);
-            if(!StringUtils.equals(uuidToken,token.getToken())){
-                log.warn("Token:{} in redis is wrong",token.getToken());
-                RedisPoolUtil.del(redisTokenKey);
-            }
-            if (token.getInvalidTime().before(new Date())){
-                log.warn("Redis token:{} is out of date",token.getToken());
-                RedisPoolUtil.del(redisTokenKey);
-            }
-        }
-        String redisUserKey = "user:" + id;
-        String redisUserValue = RedisPoolUtil.get(redisUserKey);
-        if (redisUserValue == null) {
-            user = userService.getUserById(id);
-            String userJson = JSON.toJSONString(user);
-            RedisPoolUtil.setEx(redisUserKey,userJson,(int) expire);
-        } else {
-            user = JSON.parseObject(redisUserValue,User.class);
+            user = JSON.parseObject(token.getUserInfo(),User.class);
         }
         return user;
     }
