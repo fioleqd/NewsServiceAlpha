@@ -63,7 +63,7 @@
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
                         <a href="/index/1" target="_blank">
-                            <img src="/image/world.png" class="img-responsive"></a>
+                            <img src="/image/social.png" class="img-responsive"></a>
                     </div>
                     <div class="item">
                         <a href="/index/2" target="_blank">
@@ -71,7 +71,7 @@
                     </div>
                     <div class="item">
                         <a href="/index/3" target="_blank">
-                            <img src="/image/soccer.png" class="img-responsive"></a>
+                            <img src="/image/basketball.png" class="img-responsive"></a>
                     </div>
                     <div class="item">
                         <a href="/index/4" target="_blank">

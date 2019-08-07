@@ -56,7 +56,7 @@ public class ArticleController {
             Page<Article> hotArticlesPage = articleService.getHotArticles(0, 5, 0);
             hotArticles = Page2ListUtil.page2List(hotArticlesPage);
             redisHotValue = JSON.toJSONString(hotArticles);
-            RedisPoolUtil.setEx(redisHotKey,redisHotValue,60 * 60 * 12);
+            RedisPoolUtil.setEx(redisHotKey,redisHotValue,60 * 60 * 3);
         } else {
             hotArticles = JSON.parseObject(redisHotValue,List.class);
         }
@@ -154,7 +154,7 @@ public class ArticleController {
             Page<Article> hotArticlesPage = articleService.getHotArticles(0, 5, type);
             hotArticles = Page2ListUtil.page2List(hotArticlesPage);
             redisHotValue = JSON.toJSONString(hotArticles);
-            RedisPoolUtil.setEx(redisHotKey,redisHotValue, 60 * 60 * 12);
+            RedisPoolUtil.setEx(redisHotKey,redisHotValue, 60 * 60 * 3);
         }else {
             hotArticles = JSON.parseObject(redisHotValue,List.class);
         }

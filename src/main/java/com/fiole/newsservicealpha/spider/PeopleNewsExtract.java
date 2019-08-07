@@ -1,6 +1,7 @@
 package com.fiole.newsservicealpha.spider;
 
 import com.fiole.newsservicealpha.Enum.ArticleTypeEnum;
+import com.fiole.newsservicealpha.util.RedisPoolUtil;
 import com.fiole.newsservicealpha.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
@@ -78,12 +79,18 @@ public class PeopleNewsExtract {
         String pageUrl = page.getUrl().toString();
         String baseUrl = pageUrl.substring(0,pageUrl.indexOf(".com.cn") + 7);
         Elements newsList = page.getHtml().getDocument().getElementsByClass(className);
+        String url;
         for (Element e : newsList){
             Element linkTag = e.child(0).getElementsByTag("a").first();
             String suffixUrl = linkTag.attr("href");
             if (!suffixUrl.startsWith("http://") && !suffixUrl.startsWith("https://"))
-                page.addTargetRequest(baseUrl + suffixUrl);
-            else page.addTargetRequest(suffixUrl);
+                url = baseUrl + suffixUrl;
+            else url = suffixUrl;
+            String redisUrlValue = RedisPoolUtil.get(url);
+            if (redisUrlValue == null){
+                RedisPoolUtil.setEx(url,"1",60 * 60 * 13);
+                page.addTargetRequest(url);
+            }
         }
     }
 
