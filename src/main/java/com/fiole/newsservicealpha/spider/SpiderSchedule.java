@@ -35,7 +35,7 @@ public class SpiderSchedule {
         RedisPoolUtil.del("firstPage" + ArticleTypeEnum.SOCIAL.getType());
     }
 
-    @Scheduled(cron = "0 0 11/12 * * ? ")
+    @Scheduled(cron = "0 30 9/12 * * ? ")
     public void basketballSpiderTask(){
         Spider basketballSpider = Spider.create(new BasketballNewsProcessor()).addPipeline(articlePipeline)
                 .addUrl("http://sports.people.com.cn/GB/22149/index.html")
@@ -48,7 +48,7 @@ public class SpiderSchedule {
         RedisPoolUtil.del("firstPage" + ArticleTypeEnum.BASKETBALL.getType());
     }
 
-    @Scheduled(cron = "0 30 11/12 * * ? ")
+    @Scheduled(cron = "0 0 11/12 * * ? ")
     public void worldSpiderTask(){
         Spider worldSpider = Spider.create(new WorldNewsProcessor()).addPipeline(articlePipeline)
                 .addUrl("http://world.people.com.cn/index1.html#fy01")
@@ -61,7 +61,7 @@ public class SpiderSchedule {
         RedisPoolUtil.del("firstPage" + ArticleTypeEnum.WORLD.getType());
     }
 
-    @Scheduled(cron = "0 0 12/12 * * ? ")
+    @Scheduled(cron = "0 0 10/12 * * ? ")
     public void soccerSpiderTask(){
         Spider soccerSpider = Spider.create(new SoccerNewsSpider()).addPipeline(articlePipeline)
                 .addUrl("http://sports.people.com.cn/GB/22134/index.html")

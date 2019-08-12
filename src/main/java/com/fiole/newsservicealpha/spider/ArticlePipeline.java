@@ -31,13 +31,6 @@ public class ArticlePipeline implements Pipeline {
                 return;
             }
             String url = resultItems.get("url");
-            if (RedisPoolUtil.get(url) == null){
-                RedisPoolUtil.setEx(url,"exist",3600);
-            }
-            else {
-                log.warn("This page:{} has stored",url);
-                return;
-            }
             log.info("download detail page, url is {}", url);
             Article article = new Article();
             article.setBrowseNumber(0);
