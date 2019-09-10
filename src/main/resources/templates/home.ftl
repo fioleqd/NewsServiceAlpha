@@ -15,7 +15,7 @@
     <script src="/js/nprogress.js"></script>
     <script src="/js/jquery.lazyload.min.js"></script>
 </head>
-<input style="display: none" value="${articleNumbers}" id="count"/>
+<input style="display: none" value="${articleNumbers?c}" id="count"/>
 <input style="display: none" value="${type}" id="type"/>
 <body class="user-select">
 <header class="header">

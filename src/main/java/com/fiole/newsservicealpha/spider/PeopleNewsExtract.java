@@ -41,10 +41,12 @@ public class PeopleNewsExtract {
             if (pTag.text().matches(regex))
                 continue;
             if (isFirst){
-                page.putField("brief",pTag.text());
+                page.putField("brief",pTag.text().trim().replaceAll("　",""));
                 isFirst = false;
             }
-            sb.append(pTag);
+            sb.append("<p>");
+            sb.append(pTag.text().trim().replaceAll("　",""));
+            sb.append("</p>");
         }
         if (sb.toString().isEmpty()){
             log.info("Skip this page, the page content is empty");

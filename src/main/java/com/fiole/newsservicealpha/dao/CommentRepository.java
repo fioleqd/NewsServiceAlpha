@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Integer>,JpaSpecificationExecutor<Comment> {
-    long countByItemIdAndState(int itemId,int state);
-
+    int countByItemIdAndState(int itemId,int state);
 }

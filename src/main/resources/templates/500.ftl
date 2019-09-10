@@ -41,7 +41,7 @@
         }
     </style>
 </head>
-<body class="user-select">
+<body class="user-select" style="padding-bottom: 75px">
 <ul class="layui-nav layui-bg-green">
     <li class="layui-nav-item"><a href="/index">首页</a></li>
     <li class="layui-nav-item"><a href="/index/1">社会新闻</a></li>

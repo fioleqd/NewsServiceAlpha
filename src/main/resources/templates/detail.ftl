@@ -17,9 +17,10 @@
 </head>
 
 <body class="user-select single">
-<input style="display: none" id="count" value="${count}"/>
+<input style="display: none" id="count" value="${count?c}"/>
 <input style="display: none" id="isLogin" value="${isLogin?string('true', 'false')}"/>
 <input style="display: none" id="itemId" value="${article.id?c}">
+<input style="display: none" id="commentsNumber" value="${article.responseNumber?c}">
 <#if isLogin>
 <input style="display: none" id="userId" value="${user.id?c}">
 <input style="display: none" id="nickname" value="${user.nickname}"/>
@@ -69,10 +70,10 @@
                           data-original-title="来源：${article.source}"><i
                             class="glyphicon glyphicon-globe"></i> ${article.source}</span> <span
                         class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title=""
-                        data-original-title="浏览量：${article.browseNumber}"><i
-                        class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span> <span
+                        data-original-title="浏览量：${article.browseNumber + 1}"><i
+                        class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber + 1}</span> <span
                         class="item article-meta-comment" data-toggle="tooltip" data-placement="bottom" title=""
-                        data-original-title="评论量"><i class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</span>
+                        data-original-title="评论量：${article.responseNumber}"><i class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</span>
                 </div>
             </header>
             <article class="article-content">
@@ -99,13 +100,13 @@
                 <#if count != 0>
                 <div id="comments">
                     <ol id="comment_list" class="commentlist">
-                        <#list comments as comment>
-                        <li class="comment-content"><span class="comment-f">#${commentsNO[comment_index]}</span>
+                        <#list commentModelDO.commentModels as commentModel>
+                        <li class="comment-content"><span class="comment-f">#${commentModel.commentsNo}</span>
                             <div class="comment-main">
                                 <p>
-                                    <a class="address" href="javascript:void(0);" rel="nofollow">${comment.nickname}</a>
-                                    <span class="time">(${comment.createTime?string('yyyy-MM-dd HH:mm')})</span>
-                                    <pre>${comment.content}</pre>
+                                    <a class="address" href="javascript:void(0);" rel="nofollow">${commentModel.comment.nickname}</a>
+                                    <span class="time">(${commentModel.comment.createTime?string('yyyy-MM-dd HH:mm')})</span>
+                                    <pre>${commentModel.comment.content}</pre>
                                 </p>
                             </div>
                         </li>

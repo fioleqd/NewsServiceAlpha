@@ -17,4 +17,14 @@ public class Page2ListUtil {
         }
         return list;
     }
+
+    public static <T> List<T> page2List(Page<T> page,List<T> list){
+        if (page == null)
+            return list;
+        Iterator<T> iterator = page.iterator();
+        while (iterator.hasNext()){
+            list.add(iterator.next());
+        }
+        return list;
+    }
 }

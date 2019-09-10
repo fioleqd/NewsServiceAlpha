@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.fiole.newsservicealpha.entity.Article;
 import com.fiole.newsservicealpha.entity.Comment;
 import com.fiole.newsservicealpha.entity.User;
+import com.fiole.newsservicealpha.kafka.BrowseProducer;
+import com.fiole.newsservicealpha.model.CommentModelDO;
 import com.fiole.newsservicealpha.service.ArticleService;
 import com.fiole.newsservicealpha.service.CommentService;
 import com.fiole.newsservicealpha.Enum.ArticleTypeEnum;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -26,6 +29,8 @@ import java.util.*;
 @Slf4j
 public class ArticleController {
 
+    @Autowired
+    BrowseProducer browseProducer;
     @Autowired
     ArticleService articleService;
     @Autowired
@@ -201,29 +206,29 @@ public class ArticleController {
             log.error("Wrong article id");
             return "500";
         }
-        int number = articleService.updateBrowseNumber(id);
-        if (number == 0){
-            log.error("Update article browse number error, id is {}",id);
+        CommentModelDO commentModelDO;
+        HttpSession session = request.getSession();
+        Comment commentNew = (Comment)session.getAttribute("commentNew");
+        Integer commentNumber = (Integer)session.getAttribute("commentNumber");
+        if(commentNew != null) {
+            commentModelDO = commentService.getCommentsByPaging(0, 9, id, commentNumber + 1, commentNew);
+            article.setResponseNumber(commentNumber);
+            session.setAttribute("commentNew",null);
+            session.setAttribute("commentNumber",null);
+            article.setResponseNumber(article.getResponseNumber() + 1);
         }
-        long commentNumbers = commentService.getCommentNumbers(id);
-        Page<Comment> commentsByPaging = commentService.getCommentsByPaging(0, 10, id);
-        // commentsNO表示当前评论楼层，最新评论在前，倒序排列
-        List<Long> commentsNO = new ArrayList<>();
-        int count = 0;
-        Iterator<Comment> iterator = commentsByPaging.iterator();
-        while (iterator.hasNext()){
-            iterator.next();
-            commentsNO.add(commentNumbers - count);
-            count++;
+        else {
+            commentNumber = commentService.getCommentNumbers(id);
+            commentModelDO = commentService.getCommentsByPaging(0, 10, id, commentNumber,null);
+            browseProducer.send(Integer.toString(id));
         }
         Page<Article> hotArticles = articleService.getHotArticles(0, 5, article.getType());
         Page<Article> latestResponseArticles = articleService.getArticlesByTypeAndPaging(0, 5, article.getType(), "updateTime");
         model.addAttribute("article",article);
         model.addAttribute("hotArticles",Page2ListUtil.page2List(hotArticles));
         model.addAttribute("type",article.getType());
-        model.addAttribute("count",commentNumbers);
-        model.addAttribute("comments",commentsByPaging.iterator());
-        model.addAttribute("commentsNO",commentsNO);
+        model.addAttribute("count",commentNumber);
+        model.addAttribute("commentModelDO", commentModelDO);
         model.addAttribute("backToUrl","/detail/" + id);
         model.addAttribute("latestResponseArticles",Page2ListUtil.page2List(latestResponseArticles));
         return "detail";

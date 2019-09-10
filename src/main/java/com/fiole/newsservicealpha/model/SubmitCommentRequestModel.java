@@ -16,4 +16,6 @@ public class SubmitCommentRequestModel {
     private String nickname;
     @NotEmpty
     private String content;
+    @NotEmpty
+    private int commentsNumber;
 }

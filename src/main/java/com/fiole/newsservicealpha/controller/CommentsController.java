@@ -3,6 +3,9 @@ package com.fiole.newsservicealpha.controller;
 import com.fiole.newsservicealpha.entity.Comment;
 import com.fiole.newsservicealpha.entity.User;
 import com.fiole.newsservicealpha.exception.RequestException;
+import com.fiole.newsservicealpha.kafka.CommentsProducer;
+import com.fiole.newsservicealpha.model.CommentModel;
+import com.fiole.newsservicealpha.model.CommentModelDO;
 import com.fiole.newsservicealpha.model.ResponseModel;
 import com.fiole.newsservicealpha.model.SubmitCommentRequestModel;
 import com.fiole.newsservicealpha.service.ArticleService;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.*;
 
@@ -29,22 +33,18 @@ public class CommentsController {
     CookieUtils cookieUtils;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    CommentsProducer commentsProducer;
 
     @RequestMapping(value = "/response/ajax/loadMore/{itemId}/{nextPage}",method = RequestMethod.GET)
     @ResponseBody
     public Map loadMoreResponses(@PathVariable("itemId") int itemId,@PathVariable("nextPage") int nextPage){
         Map map = new HashMap();
-        Page<Comment> commentsByPaging = commentService.getCommentsByPaging(nextPage - 1, 10, itemId);
-        long commentNumbers = commentService.getCommentNumbers(itemId);
-        long commentsNOBase = commentNumbers - 10 * (nextPage - 1);
-        List<Long> commentsNO = new ArrayList<>();
-        List<Comment> comments = Page2ListUtil.page2List(commentsByPaging);
-        for (int i = 0;i < comments.size();i++){
-            commentsNO.add(commentsNOBase - i);
-        }
-        map.put("comments",commentsByPaging.iterator());
+        int commentNumbers = commentService.getCommentNumbers(itemId);
+        CommentModelDO commentModelDO = commentService.getCommentsByPaging(nextPage - 1, 10, itemId,
+                commentNumbers - (nextPage - 1) * 10, null);
         map.put("nextPage",nextPage + 1);
-        map.put("commentsNO",commentsNO);
+        map.put("commentModelDO",commentModelDO);
         return map;
     }
 
@@ -73,11 +73,10 @@ public class CommentsController {
         comment.setState(1);
         comment.setUpdateTime(new Date(now));
         comment.setCreateTime(new Date(now));
-        int number = articleService.doComment(requestModel.getItemId(), comment);
-        if (number == 0){
-            log.error("Add comment error, article id is {}",requestModel.getItemId());
-            throw new RequestException("系统异常，请重试");
-        }
+        commentsProducer.send(comment);
+        HttpSession session = request.getSession();
+        session.setAttribute("commentNew",comment);
+        session.setAttribute("commentNumber",requestModel.getCommentsNumber());
         return ResponseModel.success();
     }
 }

@@ -16,10 +16,12 @@ $("#comment-submit").click(function () {
     var userId = $("#userId").attr("value");
     var itemId = $("#itemId").attr("value");
     var nickname = $("#nickname").attr("value");
+    var commentsNumber = $("#commentsNumber").attr("value");
     data.userId = userId;
     data.itemId = itemId;
     data.content = inputComment;
     data.nickname = nickname;
+    data.commentsNumber = commentsNumber;
     var requestModel = JSON.stringify(data);
     $.ajax({
         url: "/repsonse/ajax/submit",
@@ -30,7 +32,10 @@ $("#comment-submit").click(function () {
         data: requestModel,
         success: function (resp) {
             if (resp.errorCode === "0") {
-                window.location.reload();
+                var host = window.location.host;
+                var protocol = window.location.protocol;
+                var url = protocol + "//" + host + "/detail/" + itemId;
+                window.location.href=url;
             }
         }
     });
@@ -56,9 +61,9 @@ layui.use(['laypage', 'layer'], function(){
                     success: function (resp) {
                         $("#comments").html("");
                         var comments = "<ol id=\"comment_list\" class=\"commentlist\">";
-                        for (var i = 0; i < resp.comments.length; i++) {
-                            var comment = resp.comments[i];
-                            var commentNo = resp.commentsNO[i];
+                        for (var i = 0; i < resp.commentModelDO.commentModels.length; i++) {
+                            var comment = resp.commentModelDO.commentModels[i].comment;
+                            var commentNo = resp.commentModelDO.commentModels[i].commentsNo;
                             comments += "<li class=\"comment-content\"><span class=\"comment-f\">#" + commentNo + "</span>\n" +
                                 "                            <div class=\"comment-main\"><p><a class=\"address\" href=\"#\" rel=\"nofollow\"\n" +
                                 "                                                            target=\"_blank\">" + comment.nickname + "</a><span class=\"time\">(" + getLocalTime(comment.createTime) + ")</span><br>" + comment.content + "\n" +
