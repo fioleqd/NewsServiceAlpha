@@ -211,7 +211,7 @@ public class ArticleController {
         Comment commentNew = (Comment)session.getAttribute("commentNew");
         Integer commentNumber = (Integer)session.getAttribute("commentNumber");
         if(commentNew != null) {
-            commentModelDO = commentService.getCommentsByPaging(0, 9, id, commentNumber + 1, commentNew);
+            commentModelDO = commentService.getCommentsByPaging(0, 9, id, commentNumber, commentNew);
             article.setResponseNumber(commentNumber);
             session.setAttribute("commentNew",null);
             session.setAttribute("commentNumber",null);

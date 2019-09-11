@@ -57,6 +57,6 @@ public class CommentService {
             CommentModel commentModel = new CommentModel(page2List.get(i),commentNumbers - i - offset);
             comments.add(commentModel);
         }
-        return new CommentModelDO(comments,commentNumbers);
+        return new CommentModelDO(comments,comments.size(),commentNumbers);
     }
 }

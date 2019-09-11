@@ -4,17 +4,14 @@ import com.fiole.newsservicealpha.entity.Comment;
 import com.fiole.newsservicealpha.entity.User;
 import com.fiole.newsservicealpha.exception.RequestException;
 import com.fiole.newsservicealpha.kafka.CommentsProducer;
-import com.fiole.newsservicealpha.model.CommentModel;
 import com.fiole.newsservicealpha.model.CommentModelDO;
 import com.fiole.newsservicealpha.model.ResponseModel;
 import com.fiole.newsservicealpha.model.SubmitCommentRequestModel;
 import com.fiole.newsservicealpha.service.ArticleService;
 import com.fiole.newsservicealpha.service.CommentService;
 import com.fiole.newsservicealpha.util.CookieUtils;
-import com.fiole.newsservicealpha.util.Page2ListUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,7 +73,7 @@ public class CommentsController {
         commentsProducer.send(comment);
         HttpSession session = request.getSession();
         session.setAttribute("commentNew",comment);
-        session.setAttribute("commentNumber",requestModel.getCommentsNumber());
+        session.setAttribute("commentNumber",requestModel.getCommentsNumber() + 1);
         return ResponseModel.success();
     }
 }
