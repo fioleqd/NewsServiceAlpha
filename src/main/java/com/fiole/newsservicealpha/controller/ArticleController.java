@@ -206,29 +206,34 @@ public class ArticleController {
             log.error("Wrong article id");
             return "500";
         }
-        CommentModelDO commentModelDO;
         HttpSession session = request.getSession();
         Comment commentNew = (Comment)session.getAttribute("commentNew");
         Integer commentNumber = (Integer)session.getAttribute("commentNumber");
+        CommentModelDO topComments = (CommentModelDO) session.getAttribute("topComments");
         if(commentNew != null) {
-            commentModelDO = commentService.getCommentsByPaging(0, 9, id, commentNumber, commentNew);
+            if (topComments == null) {
+                topComments = commentService.getCommentsByPaging(0, 10, id, commentNumber, null);
+            }
+            else {
+                topComments.insertNewComment(commentNew);
+            }
             article.setResponseNumber(commentNumber);
             session.setAttribute("commentNew",null);
             session.setAttribute("commentNumber",null);
-            article.setResponseNumber(article.getResponseNumber() + 1);
         }
         else {
             commentNumber = commentService.getCommentNumbers(id);
-            commentModelDO = commentService.getCommentsByPaging(0, 10, id, commentNumber,null);
+            topComments = commentService.getCommentsByPaging(0, 10, id, commentNumber,null);
             browseProducer.send(Integer.toString(id));
         }
+        session.setAttribute("topComments",topComments);
         Page<Article> hotArticles = articleService.getHotArticles(0, 5, article.getType());
         Page<Article> latestResponseArticles = articleService.getArticlesByTypeAndPaging(0, 5, article.getType(), "updateTime");
         model.addAttribute("article",article);
         model.addAttribute("hotArticles",Page2ListUtil.page2List(hotArticles));
         model.addAttribute("type",article.getType());
         model.addAttribute("count",commentNumber);
-        model.addAttribute("commentModelDO", commentModelDO);
+        model.addAttribute("commentModelDO", topComments);
         model.addAttribute("backToUrl","/detail/" + id);
         model.addAttribute("latestResponseArticles",Page2ListUtil.page2List(latestResponseArticles));
         return "detail";
