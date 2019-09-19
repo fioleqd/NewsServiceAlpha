@@ -145,7 +145,8 @@
                         <a title="${article.title}" href="/detail/${article.id?c}">
                             <span class="text">${article.title}</span>
                             <span class="muted"><i class="glyphicon glyphicon-time"></i> ${article.time}</span>
-                            <span class="muted"><i class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</span>
+                            <span class="muted"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span>
+                            <#--<span class="muted"><i class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</span>-->
                         </a>
                     </li>
                     </#list>

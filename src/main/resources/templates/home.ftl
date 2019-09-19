@@ -100,9 +100,9 @@
                     </header>
                     <p class="meta">
                         <time class="time"><i class="glyphicon glyphicon-time"></i> ${article.time}</time>
-                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span>
-                        <a class="comment" href="##comment" title="评论" target="_blank"><i
-                                class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>
+                        <span class="views"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span>
+                        <#--<a class="comment" href="##comment" title="评论" target="_blank"><i-->
+                                <#--class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>-->
                     </p>
                     <div class="note"
                          style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">
@@ -126,9 +126,9 @@
                     </header>
                     <p class="meta">
                         <time class="time"><i class="glyphicon glyphicon-time"></i> ${article.time}</time>
-                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span>
-                        <a class="comment" href="##comment" title="评论" target="_blank"><i
-                                class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>
+                        <span class="views"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span>
+                        <#--<a class="comment" href="##comment" title="评论" target="_blank"><i-->
+                                <#--class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>-->
                     </p>
                     <div class="note"
                          style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">
@@ -149,9 +149,9 @@
                     </header>
                     <p class="meta">
                         <time class="time"><i class="glyphicon glyphicon-time"></i> ${article.time}</time>
-                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span>
-                        <a class="comment" href="##comment" title="评论" target="_blank"><i
-                                class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>
+                        <span class="views"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span>
+                        <#--<a class="comment" href="##comment" title="评论" target="_blank"><i-->
+                                <#--class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>-->
                     </p>
                     <div class="note"
                          style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">
@@ -172,9 +172,9 @@
                     </header>
                     <p class="meta">
                         <time class="time"><i class="glyphicon glyphicon-time"></i> ${article.time}</time>
-                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span>
-                        <a class="comment" href="##comment" title="评论" target="_blank"><i
-                                class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>
+                        <span class="views"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span>
+                        <#--<a class="comment" href="##comment" title="评论" target="_blank"><i-->
+                                <#--class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>-->
                     </p>
                     <div class="note"
                          style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">
@@ -195,9 +195,9 @@
                     </header>
                     <p class="meta">
                         <time class="time"><i class="glyphicon glyphicon-time"></i> ${article.time}</time>
-                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span>
-                        <a class="comment" href="##comment" title="评论" target="_blank"><i
-                                class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>
+                        <span class="views"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span>
+                        <#--<a class="comment" href="##comment" title="评论" target="_blank"><i-->
+                                <#--class="glyphicon glyphicon-comment"></i> ${article.responseNumber}</a>-->
                     </p>
                     <div class="note"
                          style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">
@@ -229,7 +229,7 @@
 			</span><span class="text">${article.title}</span><span class="muted"><i
                             class="glyphicon glyphicon-time"></i>
 				${article.time}
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i> ${article.browseNumber}</span></a></li>
+			</span><span class="muted"><i class="glyphicon glyphicon-globe"></i> ${article.source}</span></a></li>
                     </#list>
                 </ul>
             </div>

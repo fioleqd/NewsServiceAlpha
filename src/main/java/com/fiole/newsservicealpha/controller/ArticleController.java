@@ -227,10 +227,8 @@ public class ArticleController {
             browseProducer.send(Integer.toString(id));
         }
         session.setAttribute("topComments",topComments);
-        Page<Article> hotArticles = articleService.getHotArticles(0, 5, article.getType());
         Page<Article> latestResponseArticles = articleService.getArticlesByTypeAndPaging(0, 5, article.getType(), "updateTime");
         model.addAttribute("article",article);
-        model.addAttribute("hotArticles",Page2ListUtil.page2List(hotArticles));
         model.addAttribute("type",article.getType());
         model.addAttribute("count",commentNumber);
         model.addAttribute("commentModelDO", topComments);
