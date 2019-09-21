@@ -73,7 +73,7 @@ public class ArticleController {
             Page<Article> socialsPage = articleService.getArticlesByTypeAndPaging(0, 5,ArticleTypeEnum.SOCIAL.getType(),"id");
             socials = Page2ListUtil.page2List(socialsPage);
             redisSocialValue = JSON.toJSONString(socials);
-            RedisPoolUtil.setEx(redisSocialKey,redisSocialValue,60 * 60 * 12);
+            RedisPoolUtil.setEx(redisSocialKey,redisSocialValue,60 * 60 * 24);
         } else {
             socials = JSON.parseObject(redisSocialValue,List.class);
         }
@@ -85,7 +85,7 @@ public class ArticleController {
             Page<Article> worldsPage = articleService.getArticlesByTypeAndPaging(0, 5,ArticleTypeEnum.WORLD.getType(),"id");
             worlds = Page2ListUtil.page2List(worldsPage);
             redisWorldValue = JSON.toJSONString(worlds);
-            RedisPoolUtil.setEx(redisWorldKey,redisWorldValue,60 * 60 * 12);
+            RedisPoolUtil.setEx(redisWorldKey,redisWorldValue,60 * 60 * 24);
         } else {
             worlds = JSON.parseObject(redisWorldValue,List.class);
         }
@@ -97,7 +97,7 @@ public class ArticleController {
             Page<Article> basketballsPage = articleService.getArticlesByTypeAndPaging(0, 5, ArticleTypeEnum.BASKETBALL.getType(),"id");
             basketballs = Page2ListUtil.page2List(basketballsPage);
             redisBasketballValue = JSON.toJSONString(basketballs);
-            RedisPoolUtil.setEx(redisBasketballKey,redisBasketballValue,60 * 60 * 12);
+            RedisPoolUtil.setEx(redisBasketballKey,redisBasketballValue,60 * 60 * 24);
         } else {
             basketballs = JSON.parseObject(redisBasketballValue,List.class);
         }
@@ -109,7 +109,7 @@ public class ArticleController {
             Page<Article> soccersPage = articleService.getArticlesByTypeAndPaging(0,5,ArticleTypeEnum.FOOTBALL.getType(),"id");
             soccers = Page2ListUtil.page2List(soccersPage);
             redisSoccerValue = JSON.toJSONString(soccers);
-            RedisPoolUtil.setEx(redisSoccerKey,redisSoccerValue,60 * 60 * 12);
+            RedisPoolUtil.setEx(redisSoccerKey,redisSoccerValue,60 * 60 * 24);
         } else {
             soccers = JSON.parseObject(redisSoccerValue,List.class);
         }
